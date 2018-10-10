@@ -1,53 +1,34 @@
-给定一个非负整数 numRows，生成杨辉三角的前 numRows 行。
-
-在杨辉三角中，每个数是它左上方和右上方的数的和。
-
-示例:
-
-输入: 5
-输出:
-[
-     [1],
-    [1,1],
-   [1,2,1],
-  [1,3,3,1],
- [1,4,6,4,1]
-]
+//https://leetcode-cn.com/problems/pascals-triangle/description/
 
 class Solution {
     public List<List<Integer>> generate(int numRows) {
-        List<List<Integer>> output = new ArrayList<>();
-        List<Integer> row = new ArrayList<>();
-        List<Integer> lastRow = new ArrayList<>();
+    	List<List<Integer>> outputList = new ArrayList<List<Integer>>();
+        if (numRows == 0){
+            return outputList;
+        }
+        List<Integer> lastRow = new ArrayList<Integer>();
         lastRow.add(1);
-        output.add(lastRow);
+        outputList.add(lastRow);
         if (numRows == 1) {
-        	return output;
+        	return outputList;
         }
-        removeAllDate(lastRow);
-        lastRow.add(1);
-        lastRow.add(1);
-        output.add(lastRow);
+        List<Integer> thisRow = new ArrayList<Integer>();
+        thisRow.add(1);
+        thisRow.add(1);
+        outputList.add(thisRow);
         if (numRows == 2) {
-        	return output;
+        	return outputList;
         }
-        for (int i = 2;i < numRows;i++) {
-        	for (int j = 0;j < row.size() - 1;i++) {
-        		row.add(lastRow.get(j)+lastRow.get(j+1));
+        for (int i = 1;i < numRows - 1;i++) {
+        	lastRow = new ArrayList<Integer>(thisRow);
+        	thisRow = new ArrayList<Integer>();
+            thisRow.add(1);
+        	for (int j = 0;j < lastRow.size() - 1;j++) {
+        		thisRow.add(lastRow.get(j)+lastRow.get(j+1));
         	}
-        	output.add(row);
-        	removeAllDate(lastRow);
-        	for (int i:row) {
-        		lastRow.add(i);
-        	}
-        	removeAllDate(row);
+        	thisRow.add(1);
+        	outputList.add(thisRow);
         }
-        return output;
-    }
-
-    public void removeAllDate(List<E> list){
-    	for (int i = 0;i < list.size();i++) {
-    		list.remove(i);
-    	}
+        return outputList;
     }
 }
